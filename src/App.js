@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+<<<<<<< HEAD
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import ListCustomerReq from './pages/ListCustomerReq';
@@ -18,6 +19,18 @@ function App() {
           <Route path="/loststolencards" element={<LostStolenCards/>}></Route>
 
         </Routes>
+=======
+import LoginScreen from './components/LoginScreen';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+function App() {
+  return (
+    <div>
+      <BrowserRouter>
+      <Routes>
+        <Route path = "/" element = {<LoginScreen/>}></Route>
+      </Routes>
+>>>>>>> 65caeb52e2978a2329cfdfe0baeb403f141d3237
       </BrowserRouter>
     </div>
   );
