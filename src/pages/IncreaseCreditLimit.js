@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const IncreaseCreditLimit = () => {
+class IncreaseCreditLimit extends Component {
+  render(){
   return (
     <>
     <h3>Increase Credit Limit</h3>
@@ -73,7 +74,7 @@ const IncreaseCreditLimit = () => {
       </form>
     </>
 
-  )
+  )}
 }
 
 export default IncreaseCreditLimit

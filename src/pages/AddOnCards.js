@@ -1,94 +1,129 @@
-import React from "react";
+import React, { Component } from "react";
+import DataServices from "../Services/DataServices";
 
-const AddOnCards = (props) => {
-  return (
-    <>
-      <h3>Add on Card</h3>
-      <form>
-        {/* <label for="Account Number">Account Number: </label>
-        <label for="Accoutn Number">{props.acc} </label>
-        
-        <label for="cars">Customer Name: </label>
-        <label for="cars">{props.name} </label>
+class AddOnCards extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addon_card_request_id: "",
+      status: "",
+      reason: "",
+      data: [],
+    };
+  }
+  componentDidMount() {
+    DataServices.fetchAddOnCardReq(localStorage.getItem("reqId")).then(
+      (result) => {
+        this.setState({
+          data: result.data,
+        });
+      }
+    );
+  }
 
-        <label for="cars">Request Date </label>
-        <label for="cars">{props.reqDate} </label>
-        
-        <label for="cars">Name on Card </label>
-        <label for="cars">{props.nameOnCard} </label> */}
-        <div align="center">
-          <table class="table">
-            <tbody>
-              <tr>
-                <td scope="col">Account Number</td>
-                <td scope="col">XXXXXx</td>
-              </tr>
-              <tr>
-                <td scope="col">Customer Name</td>
-                <td scope="col">XXXXXx</td>
-              </tr>
-              <tr>
-                <td scope="col">Request Date</td>
-                <td scope="col">XXXXXx</td>
-              </tr>
-              <tr>
-                <td scope="col">Name on card</td>
-                <td scope="col">XXXXXx</td>
-              </tr>
+  handleSubmitCardInfo() {
+    let datalist = {
+      addon_card_request_id: localStorage.getItem("reqId"),
+      status: this.state.status,
+      reason: this.state.reason,
+    };
+    console.log(datalist);
+    DataServices.updateAddOnCard(datalist).then((result) => {
+      let data = JSON.stringify(result);
+      var obj = JSON.parse(data);
 
-              <tr>
-                <td>
-                  <label for="cars">Choose a car: </label>
-                </td>
-                <td>
-                  <select name="requestType" class="form-select">
-                    <option value="value" selected></option>
-                    <option value="Chequebook Requests">
-                      Chequebook Requests
-                    </option>
-                    <option value="Disputed Transactions">
-                      Disputed Transactions
-                    </option>
-                    <option value="Add On Card Requests">
-                      Add On Card Requests
-                    </option>
-                    <option value="Lost/Stolen Cards">Lost/Stolen Cards</option>
-                    <option value="Increase In Credit Limit">
-                      Increase In Credit Limit
-                    </option>
-                  </select>
-                </td>
-              </tr>
-              <td>
-                <label for="cars">Status: </label>
-              </td>
-              <td>
-                <select name="requestType" class="form-select">
-                  <option value="value" selected></option>
-                  <option value="Chequebook Requests">
-                    Chequebook Requests
-                  </option>
-                  <option value="Disputed Transactions">
-                    Disputed Transactions
-                  </option>
-                  <option value="Add On Card Requests">
-                    Add On Card Requests
-                  </option>
-                  <option value="Lost/Stolen Cards">Lost/Stolen Cards</option>
-                  <option value="Increase In Credit Limit">
-                    Increase In Credit Limit
-                  </option>
-                </select>
-              </td>
-            </tbody>
-          </table>
-        </div>
-        <input class="btn btn-success" type="submit" value="Submit" />
-        &nbsp;
-        <button class="btn btn-secondary">Back</button>
-      </form>
-    </>
-  );
-};
+      if (obj.data.status == "success") {
+        console.log("success");
+      }
+    });
+  }
+  onChangeStatus(event) {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.setState({
+      [name]: value,
+    });
+    // console.log(name + "----" + value);
+  }
+  render() {
+    return (
+      <>
+        <h3>Add on Card</h3>
+        <form>
+          <div align="center">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td scope="col">Account Number</td>
+                  <td scope="col">{this.state.data.account_no}</td>
+                </tr>
+                <tr>
+                  <td scope="col">Customer Name</td>
+                  <td scope="col">{this.state.data.customer_name}</td>
+                </tr>
+                <tr>
+                  <td scope="col">Request Date</td>
+                  <td scope="col">{this.state.data.request_date}</td>
+                </tr>
+                <tr>
+                  <td scope="col">Name on card</td>
+                  <td scope="col">{this.state.data.customer_name}</td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <label for="cars">Status: </label>
+                  </td>
+                  <td>
+                    <select
+                      name="status"
+                      class="form-select"
+                      onChange={(e) => {
+                        this.onChangeStatus(e);
+                      }}
+                      value={this.state.status}
+                    >
+                      <option value="" ></option>
+                      <option value="pending">Pending</option>
+                      <option value="processing">Processing</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Reason for Rejection: </label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="reason"
+                      onChange={(e) => {
+                        this.onChangeStatus(e);
+                      }}
+                    ></input>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <input
+            class="btn btn-success"
+            type="button"
+            value="Submit"
+            onClick={() => {
+              this.handleSubmitCardInfo();
+            }}
+          />
+          &nbsp;
+          <input
+          onClick={()=> window.location="/listcustomerreq"}
+          class="btn btn-secondary" type="button" value="Back"/>
+        </form>
+      </>
+    );
+  }
+}
 
 export default AddOnCards;

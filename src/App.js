@@ -1,12 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
-<<<<<<< HEAD
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
+import Login from './components/Login';
 import ListCustomerReq from './pages/ListCustomerReq';
 import AddOnCards from './pages/AddOnCards';
 import IncreaseCreditLimit from './pages/IncreaseCreditLimit';
 import LostStolenCards from './pages/LostStolenCards';
+import ChequeBookRequest from './pages/ChequeBookRequest';
+import BackOfficeMenu from './components/BackOfficeMenu';
 function App() {
   return (
     <div className="App">
@@ -17,23 +19,10 @@ function App() {
           <Route path="/addoncards" element={<AddOnCards/>}></Route>
           <Route path="/increasecreditlimit" element={<IncreaseCreditLimit/>}></Route>
           <Route path="/loststolencards" element={<LostStolenCards/>}></Route>
-
+          <Route path="/chequebookrequest" element={<ChequeBookRequest/>}></Route>
+          <Route path="/backofficemenu" element={<BackOfficeMenu/>}></Route>
         </Routes>
-=======
-import LoginScreen from './components/LoginScreen';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-function App() {
-  return (
-    <div>
-      <BrowserRouter>
-      <Routes>
-        <Route path = "/" element = {<LoginScreen/>}></Route>
-      </Routes>
->>>>>>> 65caeb52e2978a2329cfdfe0baeb403f141d3237
-      </BrowserRouter>
-    </div>
-  );
-}
-
+        </BrowserRouter>
+</div>
+)}
 export default App;
