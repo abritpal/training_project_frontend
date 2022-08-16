@@ -32,7 +32,16 @@ class ChequeBookRequest extends Component {
       status: this.state.status,
       reason: this.state.reason,
     };
-    console.log(datalist);
+    if(this.state.status=="")
+    {
+      this.setState({statusMsg:"Please Select Status"})
+    }
+    if(this.state.status=="rejected" && this.state.reason==""){
+      this.setState({
+          msg:"Please Enter Reason"
+      })}
+    else if(this.state.status!="")
+    {console.log(datalist);
     DataServices.updateChequeBookRequest(datalist).then((result) => {
       let data = JSON.stringify(result);
       var obj = JSON.parse(data);
@@ -41,6 +50,7 @@ class ChequeBookRequest extends Component {
         console.log("success");
       }
     });
+  }
   }
   render() {
     return (
@@ -89,6 +99,7 @@ class ChequeBookRequest extends Component {
                       <option value="processing">Processing</option>
                       <option value="rejected">Rejected</option>
                     </select>
+                    <div>{this.state.statusMsg}</div>
                   </td>
                 </tr>
                 <tr>
@@ -104,6 +115,7 @@ class ChequeBookRequest extends Component {
                         this.onChangeStatusChequeBookRequest(e);
                       }}
                     ></input>
+                    <div>{this.state.msg}</div>
                   </td>
                 </tr>
               </tbody>

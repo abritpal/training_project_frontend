@@ -41,10 +41,13 @@ class ListCustomerReq extends Component {
     localStorage.removeItem("reqId");
     localStorage.setItem("reqId",reqId);
     console.log(localStorage.getItem("reqId"),reqType)
-    if (reqType == "add_on_card") window.location = "/addoncards";
-    else if ((reqType = "lost_stolen")) window.location = "/loststolencards";
-    else if ((reqType = "credit_limit"))
-      window.location = "/increasecreditlimit";
+    console.log(reqType)
+    console.log("Hello")
+    if (reqType == "credit_limit")
+      {window.location = "/increasecreditlimit";}////////////////////////////////////////************* */
+      else if (reqType == "add_on_card") {window.location = "/addoncards";}
+      else if ((reqType == "lost_stolen")) {window.location = "/loststolencards";}
+      else if(reqType=="cheque_book_request") {window.location = "/chequebookrequest";}
   };
   render() {
     return (
@@ -59,7 +62,8 @@ class ListCustomerReq extends Component {
               onChange={(e) =>{this.onChangeFilter(e)}}
               value={this.state.requestType}
             >
-              <option value="Chequebook Requests">Chequebook Requests</option>
+               <option value="empty"></option>
+              <option value="cheque_book_request">Chequebook Requests</option>
               <option value="Disputed Transactions">
                 Disputed Transactions
               </option>
@@ -121,7 +125,9 @@ class ListCustomerReq extends Component {
             </tbody>
           </table>
         </div>
-        <button class="btn btn-secondary">Back</button>
+        <input
+          onClick={()=> window.location="/backofficemenu"}
+          class="btn btn-secondary" type="button" value="Back"/>
       </div>
     );
   }

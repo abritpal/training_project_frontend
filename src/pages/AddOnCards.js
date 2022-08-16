@@ -8,8 +8,10 @@ class AddOnCards extends Component {
       addon_card_request_id: "",
       status: "",
       reason: "",
+      msg:"",
       data: [],
     };
+    this.onChangeStatus=this.onChangeStatus.bind(this)
   }
   componentDidMount() {
     DataServices.fetchAddOnCardReq(localStorage.getItem("reqId")).then(
@@ -27,6 +29,17 @@ class AddOnCards extends Component {
       status: this.state.status,
       reason: this.state.reason,
     };
+    if(this.state.status==""){
+      this.setState({
+          statusMsg:"Please Enter Status"
+      })
+  }
+    else if(this.state.status=="rejected" && this.state.reason==""){
+      this.setState({
+          msg:"Please Enter Reason"
+      })
+  }
+  else{
     console.log(datalist);
     DataServices.updateAddOnCard(datalist).then((result) => {
       let data = JSON.stringify(result);
@@ -36,6 +49,7 @@ class AddOnCards extends Component {
         console.log("success");
       }
     });
+  }
   }
   onChangeStatus(event) {
     let name = event.target.name;
@@ -47,7 +61,7 @@ class AddOnCards extends Component {
   }
   render() {
     return (
-      <>
+      <div>
         <h3>Add on Card</h3>
         <form>
           <div align="center">
@@ -88,6 +102,7 @@ class AddOnCards extends Component {
                       <option value="processing">Processing</option>
                       <option value="rejected">Rejected</option>
                     </select>
+                    <div>{this.state.statusMsg}</div>
                   </td>
                 </tr>
                 <tr>
@@ -101,8 +116,8 @@ class AddOnCards extends Component {
                       name="reason"
                       onChange={(e) => {
                         this.onChangeStatus(e);
-                      }}
-                    ></input>
+                      }}/>
+                    <div>{this.state.msg}</div>
                   </td>
                 </tr>
               </tbody>
@@ -121,7 +136,7 @@ class AddOnCards extends Component {
           onClick={()=> window.location="/listcustomerreq"}
           class="btn btn-secondary" type="button" value="Back"/>
         </form>
-      </>
+      </div>
     );
   }
 }
